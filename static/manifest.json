@@ -1,0 +1,19 @@
+{
+    "name": "TBYC PHRF Calculator",
+    "short_name": "TBYC PHRF",
+    "description": "A set of calculators of for time-on-time and time-on-distance",
+    "theme_color": "#ffffff",
+    "background_color": "#333446",
+    "display": "standalone",
+    "orientation": "portrait",
+    "id": "https://tbycphrf.netlify.app/",
+    "scope": "https://tbycphrf.netlify.app/",
+    "start_url": "https://tbycphrf.netlify.app/",
+    "icons": [
+      {
+        "src": "icon.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+  ]
+}
