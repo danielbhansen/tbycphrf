@@ -1,0 +1,83 @@
+{
+    "A": 
+    [
+        {
+            "name": "Bella",
+            "rating": 69
+        },
+        {
+            "name": "Berzerker",
+            "rating": 72
+        },
+        {
+            "name": "Bobsled",
+            "rating": 72
+        },
+        {
+            "name": "Gong Show",
+            "rating": 87
+        },
+        {
+            "name": "Mongoose",
+            "rating": 60
+        },
+        {
+            "name": "Northern Harrier",
+            "rating": 66
+        }
+    ],
+    "B": 
+    [
+        {
+            "name": "Eclipse",
+            "rating": 132
+        },
+        {
+            "name": "Rumba",
+            "rating": 126
+        },
+        {
+            "name": "Straight Jacket",
+            "rating": 108
+        },
+        {
+            "name": "Tethani",
+            "rating": 132
+        }
+    ],
+    "C": 
+    [
+        {
+            "name": "Air Aura",
+            "rating": 174
+        },
+        {
+            "name": "Andiamo",
+            "rating": 189
+        },
+        {
+            "name": "Blade Runner",
+            "rating": 213
+        },
+        {
+            "name": "Brigadoon",
+            "rating": 150
+        },
+        {
+            "name": "Gray Ghost",
+            "rating": 150
+        },                
+        {
+            "name": "Felucca",
+            "rating": 165
+        },
+        {
+            "name": "Final Mile",
+            "rating": 171
+        },
+        {
+            "name": "Ruby Tuesday",
+            "rating": 180
+        }
+    ]
+}
