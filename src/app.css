@@ -14,16 +14,16 @@ h1 {
     color: #b0bfe3;
 }
 h2 {
-    font-size: 2.2rem;
+    font-size: 3rem;
 }
-.dpm h2 {
+.chosenBoat h2 {
     margin-bottom: 0;
 }
 .output h2 {
     margin-top: 0;
     color: #333446;
 }
-.dpm p:first-of-type {
+.chosenBoat p:first-of-type {
     margin-top: 0.25em;
 }
 .output h3 {
@@ -48,7 +48,11 @@ strong, h3, h4, .corrected {
 .qualification {
     color: #7F8CAA;
 }
-.dpm {
+.competitors h3 {
+    margin-top: 2em;
+    margin-bottom: 0;
+}
+.chosenBoat {
     padding-top: 1vw;
 }
 form {

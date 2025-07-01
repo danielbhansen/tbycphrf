@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';    
     import Header from '../Header.svelte';
     import Footer from '../Footer.svelte';
-    import fleetData from './inshore.json';
+    import fleetData from '../inshore.json';
     let windFactor = 550;
     let coefficient = 550;
     let fleetOptions = Object.keys(fleetData);
@@ -182,10 +182,7 @@
         <p>Rating: {chosenBoatRating}</p>
     </div>
 
-
-
 <!-- Competitors -->
-
     <div class="competitors">
         <h3>Seconds per minute deltas:</h3>
         <p><small>The number of seconds per minute of racing you need to be within of each competitor to maintain at least equal standing:</small></p>
