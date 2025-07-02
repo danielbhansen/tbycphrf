@@ -17,7 +17,7 @@ h2 {
     font-size: 3rem;
 }
 .chosenBoat h2 {
-    margin-bottom: 0;
+    margin: 0;
 }
 .output h2 {
     margin-top: 0;
@@ -55,10 +55,6 @@ strong, h3, h4, .corrected {
 .chosenBoat {
     padding-top: 1vw;
 }
-form {
-    margin-top: 2.5em;
-}
-
 form input[type="number"] {
     width: 2em;
     font-size: 1.5em;
@@ -102,7 +98,7 @@ td, th {
 }
 .section, header, footer {
     max-width: 600px;
-    padding: 1vw 5vw 3rem 5vw;
+    padding: 5vw;
     margin-left: auto;
     margin-right: auto;
 }
@@ -115,6 +111,12 @@ footer, header {
 }
 header {
     background: #191923;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header h1 {
+    margin: 0;
 }
 header a {
     color: #b0bfe3;
@@ -133,4 +135,7 @@ header a {
 }
 .fleetOptions {
     margin-bottom: 0.5rem;
+}
+.deltas h2 {
+    margin-top: 0;
 }

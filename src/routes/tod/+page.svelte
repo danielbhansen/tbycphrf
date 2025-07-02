@@ -12,6 +12,29 @@
     let boatsArray = $state([]);
     let compArray = $state([]);
     let raceDistance = $state(0);
+    let compTODArray = $state([]);
+    let compDiffsArray = $state([]);
+    let chosenBoatTOD = $state('');
+
+    onMount(() => {
+        let sFleet = localStorage.getItem("todfleet");
+        let sBoat = localStorage.getItem("todboat");
+        let sDistance = localStorage.getItem("toddistance");
+
+        if (sFleet) {
+            chosenFleet = sFleet;
+            loadFleet(chosenFleet);
+        }
+        if (sBoat) {
+            chosenBoat = sBoat;
+            loadBoats();
+        }
+        if (sDistance) {
+            raceDistance = sDistance;
+            calculateTOD();
+        }
+    })
+
 
     function loadFleet(x) {
         compArray = [];
@@ -22,14 +45,17 @@
                 boatsArray = fleet[1];
             }
         })
-        localStorage.setItem("fleet", x);
-        //console.log(boatsArray);
+       localStorage.setItem("todfleet", x);
     }
 
     function loadBoats() {
         compArray = [];
-        //boatDeltasArray = [];
-        //correctedBoatTime = '';
+        compTODArray = [];
+        compDiffsArray = [];
+        raceDistance = '';
+        //localStorage.removeItem("toddistance");
+        localStorage.setItem("todboat", chosenBoat);
+
         boatsArray.forEach(boat => {
             if (boat.name === chosenBoat) {
                 chosenBoatRating = boat.rating;
@@ -37,19 +63,29 @@
                 compArray.push(boat);
             }
         })
+    }
+
+    function calculateTOD(e) {
+        e.preventDefault();
+        compTODArray = [];
+        compDiffsArray = [];
+        localStorage.setItem("toddistance", raceDistance);
+        chosenBoatTOD = chosenBoatRating * raceDistance;
         compArray.forEach(comp => {
-            let boatDelta = calculateDeltas(comp.rating);
-            //boatDeltasArray.push(boatDelta);
+            const compTOD = comp.rating * raceDistance;
+            compTODArray.push(compTOD);
+        })
+        calculateDeltas();
+    }  
+    function calculateDeltas() {
+        compTODArray.forEach(x => {
+            compDiffsArray.push(x - chosenBoatTOD);
         })
     }
-    function calculateDeltas(rating) {
-       
-    }    
 
 </script>
 <Header />
 <div class="choices section">
-    <h1>Time on Distance Calculator</h1>
     <div class="fleetOptions">
         <label for="fleetSelect">Choose Your Fleet: </label>
         <select if="fleetSelect" bind:value={chosenFleet} onchange={()=>loadFleet(chosenFleet)}>
@@ -72,22 +108,58 @@
 </div>
 
 {#if chosenBoat}
-    <div class="times section">
-    <div class="chosenBoat">
-        <h2>{chosenBoat}</h2>
-    <p>Rating: {chosenBoatRating}</p>
+    <div class="boatDetails section">
+        <div class="chosenBoat">
+            <h2>{chosenBoat}</h2>
+            <p>Rating: {chosenBoatRating}</p>
+        </div>
+            <div class="competitors">
+        <h3>Fleet Competitors:</h3>
+        <table class="dpmtable"><thead><tr><th>Competitor</th><th>Rating</th></tr></thead><tbody>
+        {#each compArray as comp}  
+            <tr><td>{comp.name}</td><td>{comp.rating}</td></tr>
+        {/each}
+        </tbody></table>
     </div>
-        <form>
-            <label>Enter the Race Distance (nautical miles): </label><br>
-            <input type="number" min="0" inputmode="numeric" pattern="[0-9]*" placeholder="00" required bind:value={raceDistance}>
+    </div>
+    <div class="times section">
+        <form onsubmit="{calculateTOD}">
+            <p>Enter the Race Distance (nautical miles):</p>
+            <div class="digits">
+                <input type="number" min="0" max="999" inputmode="numeric" pattern="[0-9]*" placeholder="00" bind:value={raceDistance} required="" step="0.1">
+                <input type="submit" value="Calculate!">
+            </div>
         </form>
     </div>
+    {#if compTODArray.length > 0}
+        <div class="deltas section">
+            <p><small>Submitted Race Distance:</small></p><h2>{raceDistance}nm</h2>
+            {#each compArray as comp, index}
+                {#if compDiffsArray[index] < 0} 
+                    {@const diff = Math.abs(compDiffsArray[index])}
+                    {@const diffhours = new Date(diff * 1000).toISOString().substring(11, 19)}
+                    <p>You need to be within at least <strong>{diffhours}</strong> of <strong>{compArray[index].name}</strong></p>
+                {:else if compDiffsArray[index] > 0}
+                    {@const diffhours = new Date(compDiffsArray[index] * 1000).toISOString().substring(11, 19)}
+                    <p>You need to beat <strong>{compArray[index].name}</strong> by <strong>{diffhours}</strong></p>
+                {:else}
+                    <p>You and <strong>{compArray[index].name}</strong> are even, you just need to cross the line ahead.</p>
+                {/if}
+            {/each}
+        </div>
+    {/if}
 {/if}
+
+
+
 
 <Footer />
 
 <style>
     form input[type="number"] {
         width: 3em;
+    }
+    .deltas.section h2 {
+        margin-top: 0;
     }
 </style>

@@ -3,6 +3,7 @@
     import Header from '../Header.svelte';
     import Footer from '../Footer.svelte';
     import fleetData from '../inshore.json';
+    import { preventDefault } from 'svelte/legacy';
     let windFactor = 550;
     let coefficient = 550;
     let fleetOptions = Object.keys(fleetData);
@@ -25,11 +26,11 @@
     let correctedTOT, convertedDiff;
 
     onMount(() => {
-        let sFleet = localStorage.getItem("fleet");
-        let sBoat = localStorage.getItem("boat");
-        let sHours = localStorage.getItem("hours");
-        let sMins = localStorage.getItem("minutes");
-        let sSecs = localStorage.getItem("seconds");
+        let sFleet = localStorage.getItem("totfleet");
+        let sBoat = localStorage.getItem("totboat");
+        let sHours = localStorage.getItem("tothours");
+        let sMins = localStorage.getItem("totminutes");
+        let sSecs = localStorage.getItem("totseconds");
 
         if (sFleet) {
             chosenFleet = sFleet;
@@ -48,8 +49,10 @@
     })
 
     function loadFleet(x) {
-        localStorage.clear();
-        compArray = [];
+        localStorage.removeItem("tothours");
+        localStorage.removeItem("totminutes");
+        localStorage.removeItem("totseconds");
+        localStorage.removeItem("totboat");
         chosenBoat = '';
         fleetArray = Object.entries(fleetData);
         fleetArray.forEach(fleet => {
@@ -57,7 +60,7 @@
                 boatsArray = fleet[1];
             }
         })
-        localStorage.setItem("fleet", x);
+        localStorage.setItem("totfleet", x);
         //console.log(boatsArray);
     }
     function loadBoats() {
@@ -68,10 +71,10 @@
         elapsedSeconds = '';
         submittedTime = '';
         correctedBoatTime = '';
-        localStorage.removeItem("hours");
-        localStorage.removeItem("minutes");
-        localStorage.removeItem("seconds");
-        localStorage.setItem("boat", chosenBoat);
+        //localStorage.removeItem("tothours");
+        //localStorage.removeItem("totminutes");
+        //localStorage.removeItem("totseconds");
+        localStorage.setItem("totboat", chosenBoat);
         boatsArray.forEach(boat => {
             if (boat.name === chosenBoat) {
                 chosenBoatRating = boat.rating;
@@ -91,13 +94,14 @@
         let spmdr = spmd.toFixed(2); 
         return spmdr;
     }
-    function submitTime() {
+    function submitTime(e) {
+        e.preventDefault();
         submittedTime = '';
         // push all the inputs into an array to better manage it
         let elapsedCombined = [];
-        localStorage.setItem("hours", elapsedHours);
-        localStorage.setItem("minutes", elapsedMinutes);
-        localStorage.setItem("seconds", elapsedSeconds);
+        localStorage.setItem("tothours", elapsedHours);
+        localStorage.setItem("totminutes", elapsedMinutes);
+        localStorage.setItem("totseconds", elapsedSeconds);
         elapsedCombined.push(elapsedHours);
         elapsedCombined.push(elapsedMinutes);   
         elapsedCombined.push(elapsedSeconds);
@@ -152,7 +156,6 @@
 
 <!-- Choose Fleet and Boat -->
 <div class="choices section">
-    <h1>Time on Time Calculator</h1>
     <div class="fleetOptions">
         <label for="fleetSelect">Choose Your Fleet: </label>
         <select if="fleetSelect" bind:value={chosenFleet} onchange={()=>loadFleet(chosenFleet)}>
@@ -205,12 +208,12 @@
             <p>Enter Your Race Elapsed Time (hh:mm:ss): </p>
             <div class="digits">
                 <input type="number" min="0" max="99" inputmode="numeric" pattern="[0-9]*" placeholder="00" name="elapsedHours" id="elapsedHours" required="" bind:value={elapsedHours}>
-                    <span class="colon">:</span>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="59" placeholder="00"
-                    name="elapsedMins" id="elapsedMins" required="" bind:value={elapsedMinutes}>
-                    <span class="colon">:</span>
-                    <input type="number" inputmode="numeric" pattern="[0-9]*"
-                    min="0" max="59" placeholder="00" name="elapsedSecs" id="elapsedSecs" required="" bind:value={elapsedSeconds}>
+                <span class="colon">:</span>
+                <input type="number" inputmode="numeric" pattern="[0-9]*" min="0" max="59" placeholder="00"
+                name="elapsedMins" id="elapsedMins" required="" bind:value={elapsedMinutes}>
+                <span class="colon">:</span>
+                <input type="number" inputmode="numeric" pattern="[0-9]*"
+                min="0" max="59" placeholder="00" name="elapsedSecs" id="elapsedSecs" required="" bind:value={elapsedSeconds}>
                 <input type="submit" value="Calculate!">
             </div>
         </form>
@@ -235,7 +238,5 @@
     {/if}
   
 {/if}
-
-
 
 <Footer />
