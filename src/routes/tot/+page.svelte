@@ -66,11 +66,13 @@
     function loadBoats() {
         compArray = [];
         boatDeltasArray = [];
+        compDiffs = [];
         elapsedHours = '';
         elapsedMinutes = ''; 
         elapsedSeconds = '';
         submittedTime = '';
         correctedBoatTime = '';
+        correctedCompsTOT = [];
         //localStorage.removeItem("tothours");
         //localStorage.removeItem("totminutes");
         //localStorage.removeItem("totseconds");
@@ -97,6 +99,7 @@
     function submitTime(e) {
         e.preventDefault();
         submittedTime = '';
+        //boatDeltasArray = [];
         // push all the inputs into an array to better manage it
         let elapsedCombined = [];
         localStorage.setItem("tothours", elapsedHours);
@@ -146,7 +149,8 @@
     }
     $effect(() => {
         //$inspect("chosenBoat", chosenBoat);
-        //$inspect("compArray", compArray);
+        $inspect("compArray", compArray);
+        $inspect("boatsArray", boatsArray);
         //$inspect("boatDeltasArray", boatDeltasArray);
     })
 
